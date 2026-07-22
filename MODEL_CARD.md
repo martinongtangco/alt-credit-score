@@ -1,6 +1,6 @@
 # Model Card: Challenger Xgboost
 
-> **Auto-generated** at 2026-07-22T19:16:56.738626
+> **Auto-generated** at 2026-07-22T20:12:16.265070
 > **DO NOT EDIT MANUALLY** — this file is regenerated on every model retrain.
 
 ---
@@ -10,8 +10,8 @@
 | Property | Value |
 |---|---|
 | **Model Type** | challenger_xgboost |
-| **Version** | 2026-07-22T19:16:56 |
-| **Training Date** | 2026-07-22T19:16:56.738626 |
+| **Version** | 2026-07-22T20:12:16 |
+| **Training Date** | 2026-07-22T20:12:16.265070 |
 | **Author** | alt-credit-score project (open-source demo) |
 | **Framework** | Python / scikit-learn / XGBoost |
 
