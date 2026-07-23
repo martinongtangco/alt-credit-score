@@ -63,9 +63,30 @@ pytest tests/ -v
 
 # 6. Start API server
 uvicorn api.main:app --reload --port 8000
+```
 
-# 7. Open Streamlit demo
-streamlit run demo/streamlit_app.py
+## 🚀 Using the API
+
+**See [`demos/README.md`](demos/README.md) for the complete API consumer guide** with step-by-step instructions, copy-paste examples in Python, curl, and PowerShell.
+
+```bash
+# Quick demo (runs all endpoints with 3 sample applicants):
+python demos/demo_python_client.py
+
+# PowerShell (Windows):
+.\demos\demo_powershell.ps1
+
+# curl (Linux/Mac/Git Bash):
+bash demos/demo_curl.sh
+```
+
+**Python SDK** — import and use directly:
+```python
+from api_client import CreditScoreClient
+
+client = CreditScoreClient(api_key="demo-key-change-in-production")
+result = client.score(features, model="challenger")
+print(result)  # Pretty-printed credit decision
 ```
 
 ## Project Structure

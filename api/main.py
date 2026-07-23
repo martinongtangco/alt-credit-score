@@ -246,6 +246,7 @@ async def explain(request: ExplainRequest, api_key: str = Depends(get_api_key)):
 @app.get("/model-card")
 async def get_model_card():
     """Get the current Model Card (markdown)."""
+    global _model_card_content
     if not _model_card_content:
         model_card_path = PROJECT_ROOT / "MODEL_CARD.md"
         if os.path.exists(model_card_path):
