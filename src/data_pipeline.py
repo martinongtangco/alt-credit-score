@@ -86,7 +86,6 @@ def _encode_categorical(df: pd.DataFrame, cat_columns: List[str]) -> pd.DataFram
     for col in cat_columns:
         if col in df.columns:
             dummies = pd.get_dummies(df[col], prefix=col, drop_first=False)
-            dummies = dummies.add_prefix(col + "_")
             df = pd.concat([df, dummies], axis=1)
             df = df.drop(columns=[col])
     return df
@@ -154,11 +153,14 @@ def prepare_features(
         sys.path.insert(0, str(PROJECT_ROOT))
         from data.synthetic_generator import SyntheticAltDataGenerator
 
-        # Generate synthetic features correlated with the target
+        # Generate synthetic features with independent risk signal
+        # Using ground-truth labels would create data leakage (features
+        # become direct functions of the target). Instead, use a random
+        # risk profile so the synthetic features have a realistic, weaker
+        # signal-to-noise relationship.
         alt_gen = SyntheticAltDataGenerator(seed=seed)
-        # Use the default rate as the latent risk signal
-        default_rates = y.values.astype(float)
-        synthetic_df = alt_gen.generate(n_samples=len(df), default_rates=default_rates)
+        risk_signal = alt_gen.rng.uniform(0.1, 0.9, len(df))
+        synthetic_df = alt_gen.generate(n_samples=len(df), default_rates=risk_signal)
 
         # Join synthetic features
         df = pd.concat([df.reset_index(drop=True), synthetic_df.reset_index(drop=True)], axis=1)

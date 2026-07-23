@@ -71,7 +71,6 @@ def train_challenger(
             n_estimators=n_estimators,
             max_depth=max_depth,
             learning_rate=learning_rate,
-            use_label_encoder=False,
             eval_metric="logloss",
             scale_pos_weight=1.0,
             random_state=42,

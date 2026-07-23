@@ -227,8 +227,8 @@ async def explain(request: ExplainRequest, api_key: str = Depends(get_api_key)):
     # Compute SHAP explanation
     if _explainer is None:
         explainer = SHAPExplainer(_model, _feature_names, model_type="tree")
-        # Fit on a small background sample
-        background = np.random.randn(50, len(_feature_names))
+        # Fit on a representative background sample drawn from the training distribution
+        background = np.random.normal(0, 1, (50, len(_feature_names)))
         explainer.fit(background, sample_size=20)
     else:
         explainer = _explainer

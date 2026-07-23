@@ -8,10 +8,10 @@ from typing import List, Dict, Any, Optional
 
 class APIError(Exception):
     """Raised when the API returns an error response."""
-    def __init__(self, status_code: int, detail: str):
+    def __init__(self, message: str, status_code: int, body: str):
         self.status_code = status_code
-        self.detail = detail
-        super().__init__(f"API Error {status_code}: {detail}")
+        self.detail = body
+        super().__init__(message)
 
 
 @dataclass
@@ -85,7 +85,7 @@ class FeatureAttribution:
     direction: str  # "increased" or "decreased" risk
 
     def __str__(self):
-        arrow = "⬆️" if self.direction == "increased" else "⬇️"
+        arrow = "⬆️" if "increases" in self.direction else "⬇️"
         impact = f"+{self.shap_value:.4f}" if self.shap_value > 0 else f"{self.shap_value:.4f}"
         return f"  {arrow} {self.feature:<45} value={self.feature_value:.4f}  impact={impact}"
 

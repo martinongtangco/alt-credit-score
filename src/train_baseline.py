@@ -67,6 +67,7 @@ class ScorecardTransformer:
             feature_names: Names of features (before scaling).
             scaler: Optional StandardScaler used in the pipeline.
         """
+        self._scaler = scaler
         lr = model.named_steps["logistic_regression"]
         coefs = lr.coef_[0]
         intercept = lr.intercept_[0]
@@ -92,11 +93,12 @@ class ScorecardTransformer:
 
     def transform(self, X: np.ndarray) -> np.ndarray:
         """Convert feature matrix to scorecard points."""
+        scaled = self._scaler.transform(X) if self._scaler else X
         scores = np.full(X.shape[0], self._base_points)
-        for i in range(X.shape[1]):
+        for i in range(scaled.shape[1]):
             name = self._feature_names[i]
             weight = self._feature_points[name]["pdo_weight"]
-            scores += X[:, i] * weight
+            scores += scaled[:, i] * weight
         return scores
 
     def get_scorecard_table(self) -> pd.DataFrame:
